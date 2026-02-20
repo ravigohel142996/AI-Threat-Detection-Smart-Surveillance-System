@@ -18,7 +18,7 @@ from sklearn.model_selection import train_test_split
 # ── Page configuration ────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="AI Threat Detection System",
-    page_icon="🛡️",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -162,7 +162,6 @@ def risk_gauge(score: float, title: str = "Risk Score") -> go.Figure:
 with st.sidebar:
     st.markdown(
         "<div style='text-align:center; padding:10px 0 20px;'>"
-        "<span style='font-size:40px'>🛡️</span><br>"
         "<span style='color:#E63946;font-size:18px;font-weight:700;'>AI THREAT DETECTION</span><br>"
         "<span style='color:#8B949E;font-size:11px;'>Smart Surveillance System</span>"
         "</div>",
@@ -172,7 +171,7 @@ with st.sidebar:
 
     page = st.radio(
         "Navigate",
-        ["📊 Dashboard Overview", "🔍 Threat Prediction", "📈 Risk Analytics", "🤖 AI Model Insights"],
+        ["Dashboard Overview", "Threat Prediction", "Risk Analytics", "AI Model Insights"],
         label_visibility="collapsed",
     )
 
@@ -191,9 +190,9 @@ model, X_test, y_test, df = train_model()
 # ═══════════════════════════════════════════════════════════════════════════════
 # PAGE 1 – DASHBOARD OVERVIEW
 # ═══════════════════════════════════════════════════════════════════════════════
-if page == "📊 Dashboard Overview":
+if page == "Dashboard Overview":
     st.markdown(
-        "<h1 style='color:#E63946;margin-bottom:4px;'>🛡️ AI Threat Detection Dashboard</h1>"
+        "<h1 style='color:#E63946;margin-bottom:4px;'>AI Threat Detection Dashboard</h1>"
         "<p style='color:#8B949E;margin-top:0;'>Real-time surveillance monitoring & threat assessment</p>",
         unsafe_allow_html=True,
     )
@@ -210,7 +209,7 @@ if page == "📊 Dashboard Overview":
 
     col_refresh = st.columns([6, 1])
     with col_refresh[1]:
-        if st.button("🔄 Refresh", width="stretch"):
+        if st.button("Refresh", width="stretch"):
             st.session_state.sim_data = {
                 "crowd":  random.randint(10, 95),
                 "motion": random.randint(5, 95),
@@ -247,7 +246,7 @@ if page == "📊 Dashboard Overview":
             unsafe_allow_html=True,
         )
     with c4:
-        cam_status = "🟢 ONLINE" if threat_idx < 2 else "🔴 ALERT"
+        cam_status = "ONLINE" if threat_idx < 2 else "ALERT"
         st.markdown(
             f"<div class='metric-card'><h3>CAMERAS</h3>"
             f"<h2 style='font-size:20px;'>{cam_status}</h2></div>",
@@ -259,11 +258,11 @@ if page == "📊 Dashboard Overview":
     # ── Gauge + Current parameters ────────────────────────────────────────────
     g1, g2 = st.columns([1, 1])
     with g1:
-        st.markdown("<div class='section-header'>📡 Live Risk Gauge</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Live Risk Gauge</div>", unsafe_allow_html=True)
         st.plotly_chart(risk_gauge(risk_score), width="stretch")
 
     with g2:
-        st.markdown("<div class='section-header'>📋 Current Sensor Readings</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Current Sensor Readings</div>", unsafe_allow_html=True)
         sensor_df = pd.DataFrame({
             "Parameter":  ["Crowd Density", "Motion Intensity", "Time of Day", "Location Risk", "Unauth. Access"],
             "Value":      [f"{sd['crowd']}%", f"{sd['motion']}%", f"{sd['hour']:02d}:00",
@@ -281,7 +280,7 @@ if page == "📊 Dashboard Overview":
         )
 
     # ── Simulated real-time timeline ──────────────────────────────────────────
-    st.markdown("<div class='section-header'>📉 Real-Time Monitoring Simulation</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Real-Time Monitoring Simulation</div>", unsafe_allow_html=True)
     ts_len = 60
     np.random.seed(int(time.time()) % 1000)
     timestamps = [f"{i:02d}:00" for i in range(ts_len)]
@@ -313,30 +312,30 @@ if page == "📊 Dashboard Overview":
 # ═══════════════════════════════════════════════════════════════════════════════
 # PAGE 2 – THREAT PREDICTION
 # ═══════════════════════════════════════════════════════════════════════════════
-elif page == "🔍 Threat Prediction":
+elif page == "Threat Prediction":
     st.markdown(
-        "<h1 style='color:#E63946;margin-bottom:4px;'>🔍 Threat Prediction Engine</h1>"
+        "<h1 style='color:#E63946;margin-bottom:4px;'>Threat Prediction Engine</h1>"
         "<p style='color:#8B949E;'>Configure input parameters and run AI-powered threat analysis</p>",
         unsafe_allow_html=True,
     )
 
     with st.form("prediction_form"):
-        st.markdown("<div class='section-header'>⚙️ Input Parameters</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Input Parameters</div>", unsafe_allow_html=True)
         r1c1, r1c2, r1c3 = st.columns(3)
         with r1c1:
-            crowd    = st.slider("👥 Crowd Density", 0, 100, 50, help="Estimated crowd density (0–100)")
+            crowd    = st.slider("Crowd Density", 0, 100, 50, help="Estimated crowd density (0–100)")
         with r1c2:
-            motion   = st.slider("🏃 Motion Intensity", 0, 100, 40, help="Detected motion level (0–100)")
+            motion   = st.slider("Motion Intensity", 0, 100, 40, help="Detected motion level (0–100)")
         with r1c3:
-            hour     = st.slider("🕐 Time of Day (hour)", 0, 23, 12, help="Hour in 24h format")
+            hour     = st.slider("Time of Day (hour)", 0, 23, 12, help="Hour in 24h format")
 
         r2c1, r2c2 = st.columns(2)
         with r2c1:
-            loc_risk = st.selectbox("📍 Location Risk Level", ["Low", "Medium", "High"])
+            loc_risk = st.selectbox("Location Risk Level", ["Low", "Medium", "High"])
         with r2c2:
-            unauth   = st.selectbox("🔒 Unauthorized Access Detected", ["No", "Yes"])
+            unauth   = st.selectbox("Unauthorized Access Detected", ["No", "Yes"])
 
-        submitted = st.form_submit_button("🚀 Analyze Threat", width="stretch")
+        submitted = st.form_submit_button("Analyze Threat", width="stretch")
 
     if submitted:
         threat_idx, proba = predict(model, crowd, motion, hour, loc_risk, unauth)
@@ -359,7 +358,7 @@ elif page == "🔍 Threat Prediction":
         pr1, pr2 = st.columns(2)
 
         with pr1:
-            st.markdown("<div class='section-header'>📊 Probability Distribution</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-header'>Probability Distribution</div>", unsafe_allow_html=True)
             prob_df = pd.DataFrame({
                 "Threat Level": ["LOW", "MEDIUM", "HIGH"],
                 "Probability":  [round(p * 100, 1) for p in proba],
@@ -381,11 +380,11 @@ elif page == "🔍 Threat Prediction":
             st.plotly_chart(fig_bar, width="stretch")
 
         with pr2:
-            st.markdown("<div class='section-header'>🎯 Risk Gauge</div>", unsafe_allow_html=True)
+            st.markdown("<div class='section-header'>Risk Gauge</div>", unsafe_allow_html=True)
             st.plotly_chart(risk_gauge(risk_score), width="stretch")
 
         # Recommendations
-        st.markdown("<div class='section-header'>💡 AI Recommendations</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>AI Recommendations</div>", unsafe_allow_html=True)
         recs = {
             0: ["✅ Continue standard monitoring protocols",
                 "✅ Maintain regular patrol schedules",
@@ -408,9 +407,9 @@ elif page == "🔍 Threat Prediction":
 # ═══════════════════════════════════════════════════════════════════════════════
 # PAGE 3 – RISK ANALYTICS
 # ═══════════════════════════════════════════════════════════════════════════════
-elif page == "📈 Risk Analytics":
+elif page == "Risk Analytics":
     st.markdown(
-        "<h1 style='color:#E63946;margin-bottom:4px;'>📈 Risk Analytics</h1>"
+        "<h1 style='color:#E63946;margin-bottom:4px;'>Risk Analytics</h1>"
         "<p style='color:#8B949E;'>Statistical analysis of threat patterns across the surveillance dataset</p>",
         unsafe_allow_html=True,
     )
@@ -424,7 +423,7 @@ elif page == "📈 Risk Analytics":
     a1, a2 = st.columns(2)
 
     with a1:
-        st.markdown("<div class='section-header'>📊 Threat Level Distribution</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Threat Level Distribution</div>", unsafe_allow_html=True)
         dist = df_plot["threat_label"].value_counts().reset_index()
         dist.columns = ["Threat Level", "Count"]
         fig_pie = px.pie(
@@ -441,7 +440,7 @@ elif page == "📈 Risk Analytics":
         st.plotly_chart(fig_pie, width="stretch")
 
     with a2:
-        st.markdown("<div class='section-header'>🌡️ Crowd Density vs Motion Intensity</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Crowd Density vs Motion Intensity</div>", unsafe_allow_html=True)
         fig_scatter = px.scatter(
             df_plot.sample(500, random_state=42),
             x="crowd_density", y="motion_intensity",
@@ -463,7 +462,7 @@ elif page == "📈 Risk Analytics":
     b1, b2 = st.columns(2)
 
     with b1:
-        st.markdown("<div class='section-header'>🕐 Hourly Threat Frequency</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Hourly Threat Frequency</div>", unsafe_allow_html=True)
         hourly = df_plot.groupby(["time_of_day", "threat_label"]).size().reset_index(name="count")
         fig_hourly = px.bar(
             hourly, x="time_of_day", y="count", color="threat_label",
@@ -480,7 +479,7 @@ elif page == "📈 Risk Analytics":
         st.plotly_chart(fig_hourly, width="stretch")
 
     with b2:
-        st.markdown("<div class='section-header'>📍 Threat Level by Location Risk</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Threat Level by Location Risk</div>", unsafe_allow_html=True)
         loc_threat = df_plot.groupby(["location_label", "threat_label"]).size().reset_index(name="count")
         fig_loc = px.bar(
             loc_threat, x="location_label", y="count", color="threat_label",
@@ -499,7 +498,7 @@ elif page == "📈 Risk Analytics":
         st.plotly_chart(fig_loc, width="stretch")
 
     # ── Row 3: summary statistics ─────────────────────────────────────────────
-    st.markdown("<div class='section-header'>📋 Dataset Summary Statistics</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Dataset Summary Statistics</div>", unsafe_allow_html=True)
     summary = df[["crowd_density", "motion_intensity", "time_of_day"]].describe().round(2)
     st.dataframe(summary, width="stretch")
 
@@ -507,9 +506,9 @@ elif page == "📈 Risk Analytics":
 # ═══════════════════════════════════════════════════════════════════════════════
 # PAGE 4 – AI MODEL INSIGHTS
 # ═══════════════════════════════════════════════════════════════════════════════
-elif page == "🤖 AI Model Insights":
+elif page == "AI Model Insights":
     st.markdown(
-        "<h1 style='color:#E63946;margin-bottom:4px;'>🤖 AI Model Insights</h1>"
+        "<h1 style='color:#E63946;margin-bottom:4px;'>AI Model Insights</h1>"
         "<p style='color:#8B949E;'>RandomForestClassifier — performance metrics & interpretability</p>",
         unsafe_allow_html=True,
     )
@@ -534,7 +533,7 @@ elif page == "🤖 AI Model Insights":
     i1, i2 = st.columns(2)
 
     with i1:
-        st.markdown("<div class='section-header'>🔑 Feature Importance</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Feature Importance</div>", unsafe_allow_html=True)
         feat_names = ["Crowd Density", "Motion Intensity", "Time of Day", "Location Risk", "Unauth. Access"]
         importances = model.feature_importances_
         imp_df = pd.DataFrame({"Feature": feat_names, "Importance": importances})
@@ -557,7 +556,7 @@ elif page == "🤖 AI Model Insights":
         st.plotly_chart(fig_imp, width="stretch")
 
     with i2:
-        st.markdown("<div class='section-header'>🔲 Confusion Matrix</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Confusion Matrix</div>", unsafe_allow_html=True)
         cm = confusion_matrix(y_test, y_pred)
         fig_cm = px.imshow(
             cm,
@@ -574,7 +573,7 @@ elif page == "🤖 AI Model Insights":
         st.plotly_chart(fig_cm, width="stretch")
 
     # ── Classification report ─────────────────────────────────────────────────
-    st.markdown("<div class='section-header'>📊 Classification Report</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Classification Report</div>", unsafe_allow_html=True)
     report_dict = classification_report(
         y_test, y_pred,
         target_names=["LOW", "MEDIUM", "HIGH"],
@@ -585,7 +584,7 @@ elif page == "🤖 AI Model Insights":
     st.dataframe(report_df, width="stretch")
 
     # ── Model architecture ────────────────────────────────────────────────────
-    st.markdown("<div class='section-header'>🏗️ Model Architecture</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Model Architecture</div>", unsafe_allow_html=True)
     arch_cols = st.columns(3)
     arch_info = [
         ("Algorithm",   "Random Forest Classifier"),
